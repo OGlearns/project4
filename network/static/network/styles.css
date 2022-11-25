@@ -1,0 +1,114 @@
+#submit-post {
+    width: 100px;
+    height: 30x;
+    padding:auto;
+    margin: 5px 0px 5px 0px;
+    float:right;
+}
+
+#new-post {
+    margin:auto;
+    padding: 10px 20px 10px 20px;
+    margin-top:20px;
+}
+
+#post-text {
+    width: 100%;
+    margin-top:5px;
+    border-color: rgb(181, 181, 181);
+}
+
+#post-box {
+    height:75px;
+    padding-top:10px;
+}
+
+#post-likes {
+    float: right;
+    position:relative;
+}
+
+#post-user {
+    margin: 5px;
+    padding: 2px 7px 3px 7px;
+    background-color: rgb(111, 111, 111);
+    font-size: small;
+    color: white;
+    /* width: fit-content;     */
+    /* border-radius: 9px; */
+    text-align: center;
+    float:right;
+    position:absolute;
+    top:5px;
+    right:5px;
+}
+
+#post-date {
+    color: grey;
+    float:right;
+    margin-top:10px;
+}
+
+#post-likes {
+    float:left;
+    color:grey;
+    margin-top:10px;
+}
+
+#post-like {
+    width: 15px;
+    margin-bottom:5px;
+    margin-right: 10px;
+}
+#post-like:hover {
+    width: 17px;
+}
+
+
+#user-profile-details {
+
+    margin-top: 30px;
+    /* position:relative; */
+    /* right:-1500px; */
+    /* display:inline-block; */
+    /* float:inline-end; */
+    display: flex;
+    justify-content: flex-start;
+    padding:20px;
+    flex-direction: row;
+}
+
+#user-profile-name {
+    /* flex-direction: row; */
+    /* float:right; */
+    
+    /* justify-content: flex-end; */
+    /* margin:20px; */
+    display: flex;
+    justify-content: center;
+}
+
+#follow-button {
+    
+    /* flex-direction: row; */
+    /* float:right; */
+    /* justify-content: flex-end; */
+    margin-left:25px;
+    font-size: small;
+    height:max-content;
+    width: max-content;
+
+}
+#user-posts-title {
+    margin-top:20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#posts-view {
+    margin-top:50px;
+}
+
+#user-follow-details {
+    padding: 20px;
+}

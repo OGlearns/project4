@@ -1,0 +1,60 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    
+<!-- IF user is authenticated, they can add a new post -->
+    {%if request.user.is_authenticated %}
+        <div class='card col-5'id="new-post">
+            <form method="post" action="{% url 'new_post' %}">
+                {% csrf_token %}
+                {{post_form}}
+                <div id="post-text">
+                </div>
+                <button type="submit" id="submit-post" class="btn btn-dark">
+                    Post
+                </button>
+            </form>
+        </div>
+    {% endif %}
+
+
+    <!-- display all posts -->
+    <div class="container"id="posts-view">
+        <h4>
+            All Posts
+        </h4>
+        <div >
+            <!-- {{user_following_posts}} -->
+            <!-- Display list of posts -->
+            {% for post in users_posts %}
+                <div id="post-box" class="col card">
+                    <div id="post-content">
+                        {{post.content}}
+                    </div>
+                    <div id="post-details">
+                        <a href="{% url 'profile_page' username=post.user %}"class="btn btn-dark"id="post-user">
+                            {{post.user|capfirst}}
+                        </a>
+                        <span id="post-date">
+                            {{post.date}}
+                        </span>
+                        <span>
+                            <div id="post-likes">
+                                <img id="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
+                                {% if post.likes == 0 or post.likes is none %}
+                                    0 likes
+                                {% elif post.likes == 1 %}
+                                    1 like
+                                {% else %}
+                                    {{post.likes}} likes
+                                {% endif %}
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
