@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
@@ -16,9 +17,15 @@ def index(request):
     # get all posts and send to index page
     posts = Post.objects.all().order_by('-date')
     post_form = NewPostForm()
+
+    paginator = Paginator(posts, 5) # shows 10 posts per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "network/index.html", {
-        'posts':posts,
         'post_form' : post_form,
+        'page_obj' : page_obj
     })
 
 
@@ -96,12 +103,13 @@ def new_post(request):
 # Display users profile page
 def profile_page(request, username):
     # Get the user who's page we're on
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'This user does not exist'})
     # Get the following list of the requesting user
-    request_user_following, created = UserFollowing.objects.get_or_create(user=user,defaults={
-        'following': None,
-        'followers' : None,
-    })
+    
+    request_user_following, created = UserFollowing.objects.get_or_create(user=user)
     
     if created == False:
         user_following = request_user_following.following
@@ -112,13 +120,18 @@ def profile_page(request, username):
 
     # Get all posts by the profile user
     users_posts = Post.objects.filter(user=user).order_by('-date')
+    paginator = Paginator(users_posts, 2) # shows 10 posts per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "network/profile.html", {
         "user": user,
         "user_followers":user_followers,
         "user_following":user_following,
-        "all":UserFollowing.objects.all(),
         "post_form":NewPostForm(),
         "users_posts":users_posts,
+        'page_obj': page_obj,
     })
 
 
@@ -127,21 +140,24 @@ def profile_page(request, username):
 def following_page(request):
     # Get the users that the requesting user is following.
     users_follows, created = UserFollowing.objects.get_or_create(user=request.user)
-    user_following = users_follows.following
+    user_following = users_follows.following.all()
     # Get all their post
     user_following_posts = []
-    for follower in user_following.all():
-        try:
-            follower_post = Post.objects.get(user=follower)
-            user_following_posts.append(follower_post)
-        except:
-            continue
-        
+    for follower in user_following:
+        follower_posts = Post.objects.filter(user=follower).order_by('-date')
+        for post in follower_posts:
+            user_following_posts.append(post)
+    
+    paginator = Paginator(user_following_posts, 2) # shows 10 posts per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     # Return posts to following page
     return render(request, "network/following.html", {
 
         "user_following":user_following,
         "all":UserFollowing.objects.all(),
         "post_form":NewPostForm(),
-        "users_posts":user_following_posts,
+        'page_obj': page_obj,
     })

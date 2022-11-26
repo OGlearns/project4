@@ -60,7 +60,7 @@
     </div>
     <div id="posts-view" class="container">
         <!-- Display list of posts -->
-        {% for post in users_posts %}
+        {% for post in page_obj %}
             <div id="post-box" class="col card">
                 <div id="post-content">
                     {{post.content}}
@@ -75,18 +75,35 @@
                     <span>
                         <div id="post-likes">
                             <img id="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
-                            {% if post.likes == 0 or none %}
-                                0 likes
-                            {% elif post.likes == 1 %}
+                            {% if post.liked_users.count == 1 %}
                                 1 like
                             {% else %}
-                                {{post.likes}} likes
+                                {{post.liked_users.count}} likes
                             {% endif %}
                         </div>
                     </span>
                 </div>
             </div>
         {% endfor %}
+
+        <div id="pagination">
+            <span class="step-links pagination ">
+                {% if page_obj.has_previous %}
+                    <a class="page-link" href="?page=1">&laquo; first</a>
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
     </div>
 
 
