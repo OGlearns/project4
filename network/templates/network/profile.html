@@ -34,13 +34,24 @@
             </button>
             {% endif %}
             
-        {% endif %}
-        
     </div>
+
+{% else %}
+
+    <!-- Profile details: username -->
+    <div class="container" id="user-profile-details">
+        <h3 id="user-profile-name">
+            {{user|capfirst}}
+        </h3>            
+    </div>
+
+{% endif %}
+
+        
     <!-- Display number of following and followers -->
 
     <div id="user-follow-details" class="container">
-
+        {% if user_followers %}
             <span>
                 {{ user_followers.count }} Followers
             </span>
@@ -48,7 +59,15 @@
             <span>
                 {{ user_following.count }} Following
             </span>
+        {% else %}
+        <span>
+            0 Followers
+        </span>
 
+        <span>
+            0 Following
+        </span>
+        {% endif %}
     </div>
 
 
@@ -58,9 +77,10 @@
             {{user|capfirst}}'s posts
         </h4>
     </div>
-    <div id="posts-view" class="container">
+    <div id="posts-view" class="container" style="margin-top:0px;">
         <!-- Display list of posts -->
         {% for post in page_obj %}
+
             <div id="post-box" class="col card">
                 <div id="post-content">
                     {{post.content}}
@@ -74,9 +94,13 @@
                     </span>
                     <span>
                         <div id="post-likes">
-                            <img id="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
+                            {% if request.user in post.liked_users.all %}
+                                <img id="{{post.id}}" class="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
+                            {% else %}
+                                <img id="{{post.id}}" class="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/7.7.0/png/iconmonstr-heart-lined.png&r=0&g=0&b=0" alt="like button svg">
+                            {% endif %}
                             {% if post.liked_users.count == 1 %}
-                                1 like
+                                {{post.liked_users.count}} like
                             {% else %}
                                 {{post.liked_users.count}} likes
                             {% endif %}
@@ -85,25 +109,25 @@
                 </div>
             </div>
         {% endfor %}
-
+        
         <div id="pagination">
             <span class="step-links pagination ">
                 {% if page_obj.has_previous %}
-                    <a class="page-link" href="?page=1">&laquo; first</a>
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a class="page-link" href="?page=1">&laquo; first</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
                 {% endif %}
-        
+                
                 <span class="current page-link">
                     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                 </span>
-        
+                
                 {% if page_obj.has_next %}
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
-
+        
     </div>
 
 

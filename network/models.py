@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 class User(AbstractUser):
-    date_joined = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    date_joined = models.DateTimeField(auto_now=True, null=False, blank=False)
     # posts = models.ForeignKey('Post', blank=True, null=True, related_name="user_posts", on_delete=models.CASCADE)
     USERNAME_FIELD: str
     def __str__(self):
@@ -23,7 +23,7 @@ class Comment(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=200, null=False, blank=False, verbose_name='')
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(auto_now_add=True)
     liked_users = models.ManyToManyField(User, related_name='liked_users', null=True, blank=True)
     comments = models.ForeignKey(Comment, related_name='comments', on_delete=models.CASCADE, null=True, blank=True)
 

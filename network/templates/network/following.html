@@ -24,7 +24,6 @@
             All Posts
         </h4>
         <div >
-            <!-- {{user_following_posts}} -->
             <!-- Display list of posts -->
             {% for post in page_obj %}
                 <div id="post-box" class="col card">
@@ -32,7 +31,7 @@
                         {{post.content}}
                     </div>
                     <div id="post-details">
-                        <a href="{% url 'profile_page' username=post.user %}"class="btn btn-dark"id="post-user">
+                        <a href="{% url 'profile_page' username=post.user %}"class="link btn"id="post-user">
                             {{post.user|capfirst}}
                         </a>
                         <span id="post-date">
@@ -40,9 +39,14 @@
                         </span>
                         <span>
                             <div id="post-likes">
-                                <img id="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
+                                <!-- <span id="{{post.id}}" class="post_id"style="display:none">{{post.id}}</span> -->
+                                {% if request.user in post.liked_users.all %}
+                                    <img id="{{post.id}}" class="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-favorite-5.png&r=255&g=0&b=0" alt="like button svg">
+                                {% else %}
+                                    <img id="{{post.id}}" class="post-like" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/7.7.0/png/iconmonstr-heart-lined.png&r=0&g=0&b=0" alt="like button svg">
+                                {% endif %}
                                 {% if post.liked_users.count == 1 %}
-                                    1 like
+                                    {{post.liked_users.count}} like
                                 {% else %}
                                     {{post.liked_users.count}} likes
                                 {% endif %}
@@ -51,6 +55,7 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
 
             <div id="pagination">
                 <span class="step-links pagination ">
@@ -70,7 +75,6 @@
                 </span>
             </div>
 
-        </div>
     </div>
 
 

@@ -14,12 +14,12 @@
 
 #post-text {
     width: 100%;
-    margin-top:5px;
+    margin-top:10px;
     border-color: rgb(181, 181, 181);
 }
 
 #post-box {
-    height:75px;
+    height:120px;
     padding-top:10px;
 }
 
@@ -29,38 +29,36 @@
 }
 
 #post-user {
-    margin: 5px;
+
     padding: 2px 7px 3px 7px;
     background-color: rgb(74, 153, 255);
     font-size: small;
     color: white;
-    /* width: fit-content;     */
-    /* border-radius: 9px; */
     text-align: center;
     float:right;
     position:absolute;
-    top:5px;
+    bottom:60px;
     right:5px;
 }
 
 #post-date {
     color: grey;
     float:right;
-    margin-top:10px;
+    margin-top:15px;
 }
 
 #post-likes {
     float:left;
     color:grey;
-    margin-top:10px;
+    margin-top:15px;
 }
 
-#post-like {
+.post-like {
     width: 15px;
     margin-bottom:5px;
     margin-right: 10px;
 }
-#post-like:hover {
+.post-like:hover {
     width: 17px;
 }
 
@@ -68,10 +66,6 @@
 #user-profile-details {
 
     margin-top: 30px;
-    /* position:relative; */
-    /* right:-1500px; */
-    /* display:inline-block; */
-    /* float:inline-end; */
     display: flex;
     justify-content: flex-start;
     padding:20px;
@@ -79,21 +73,14 @@
 }
 
 #user-profile-name {
-    /* flex-direction: row; */
-    /* float:right; */
-    
-    /* justify-content: flex-end; */
-    /* margin:20px; */
+
     display: flex;
     justify-content: center;
 }
 
 #follow-button {
-    
-    /* flex-direction: row; */
-    /* float:right; */
-    /* justify-content: flex-end; */
-    margin-left:25px;
+
+    margin-left:20px;
     font-size: small;
     height:max-content;
     width: max-content;
@@ -101,16 +88,22 @@
 }
 #user-posts-title {
     margin-top:20px;
+    padding:20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
+#post-details{
+    position:relative;
+
+
+}
 #posts-view {
     margin-top:50px;
 }
 
 #user-follow-details {
-    padding: 20px;
+    padding-left:20px;
 }
 
 #pagination {
@@ -118,3 +111,19 @@
     margin-right:0px;
     float:right;
 }
+
+.edit-post {
+    font-size:medium;
+    position:absolute;
+    margin:9px;
+    right:180px;
+    /* bottom:45px; */
+}
+
+.post-content {
+    margin-top:5px;
+    max-width:95%;
+    height:55px;
+    z-index: 1;
+}
+
