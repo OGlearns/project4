@@ -21,7 +21,7 @@ def index(request):
     post_form = NewPostForm()
 
 
-    paginator = Paginator(posts, 20) # shows 10 posts per page
+    paginator = Paginator(posts, 20) # shows 20 posts per page
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
